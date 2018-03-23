@@ -19,7 +19,7 @@ namespace GladiatorArena
 
         List<Entity> eList = new List<Entity>();
 
-        int AmountofDucks = 100;
+        int AmountofDucks = 1;
 
         public Game1()
         {
@@ -58,7 +58,7 @@ namespace GladiatorArena
             Random rnd = new Random();
 
             for(int i = 0; i < AmountofDucks; i++)
-                eList.Add(new Entity(spr_Duck, new Vector2(rnd.Next(1, 300), rnd.Next(1, 300)), new Vector2(rnd.Next(100, 400), rnd.Next(100, 400)), 0.05f));
+                eList.Add(new Entity(spr_Duck, new Vector2(rnd.Next(1, 300), rnd.Next(1, 300)), new Vector2(rnd.Next(100, 400), rnd.Next(100, 400)), (float)rnd.Next(1, 10)/10));
 
         }
 

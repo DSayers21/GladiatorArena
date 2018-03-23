@@ -50,12 +50,15 @@ namespace GladiatorArena
             //Check Collisions
             for (int i = 0; i < entities.Count(); i++)
             {
-                bool Res = Collider.CheckColliding(this, entities[i]);
-                //Do collision Response
-                if (Res)
+                if (this != entities[i])
                 {
-                    Count++;
-                    Console.WriteLine("Colliding: " + Count);
+                    bool Res = Collider.CheckColliding(this, entities[i]);
+                    //Do collision Response
+                    if (Res)
+                    {
+                        //Basic Collision Response, just invert velocity
+                        m_velocity *= -1;
+                    }
                 }
             }
 
@@ -86,6 +89,19 @@ namespace GladiatorArena
         public Vector2 GetVelocity() { return m_velocity; }
         public float GetWidth() { return m_width; }
         public float GetHeight() { return m_width; }
+
+        public Vector2 GetCentre()
+        {
+            Vector2 centre;
+            centre.X = m_position.X + m_width / 2;
+            centre.Y = m_position.Y + m_height / 2;
+            return centre;
+        }
+
+        public float GetRadius()
+        {
+            return MathHelper.Max(m_width, m_height) / 2;
+        }
 
         //Privatw
         private void CalcScale(float scale)
