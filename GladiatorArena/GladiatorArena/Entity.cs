@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GladiatorArena
 {
-    class Entity
+    public class Entity
     {
         //public
         public Entity()
@@ -23,7 +23,7 @@ namespace GladiatorArena
             CalcScale(1);
         }
 
-        public Entity(Texture2D spr_sprite, Vector2 position, float scale)
+        public Entity(Texture2D spr_sprite, Vector2 position, float scale = 1.0f)
         {
             m_spr_sprite = spr_sprite;
             m_velocity = Vector2.Zero;
