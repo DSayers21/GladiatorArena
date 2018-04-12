@@ -16,20 +16,15 @@ namespace GladiatorArena
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch tileBatch;
-        Texture2D spr_Duck;
+
         Texture2D spr_Player;
-        Texture2D tile_Grass;
-        Texture2D tile_Sand;
-        Texture2D tile_Tree;
-        Texture2D tile_Water;
-        Vector2 scr_dimensions;
-        TileMap tilesMappo;
+
+        Dictionary<TileMap.tileType, Texture2D> tileTextures = new Dictionary<TileMap.tileType, Texture2D>();
+
+        TileMap m_tilesMap;
         List<Entity> eList = new List<Entity>();
 
-        Vector2 gameArea = new Vector2(11, 17);
-        Vector2 tileDims = new Vector2(64, 64);
-
-        double interval = 33;
+        double interval = 25;
         double elapsedTime = 0;
 
 
@@ -51,10 +46,6 @@ namespace GladiatorArena
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-
-            graphics.PreferredBackBufferWidth = Convert.ToInt32(tileDims.X * gameArea.Y);
-            graphics.PreferredBackBufferHeight = Convert.ToInt32(tileDims.Y * gameArea.X);
-            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -66,20 +57,20 @@ namespace GladiatorArena
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tileBatch = new SpriteBatch(GraphicsDevice);
-            //load your game content here
+
+            //Load Sprites
             spr_Player = this.Content.Load<Texture2D>("PlayerSprite");
 
+            //Load Tile Textures
+            tileTextures.Add(TileMap.tileType.grass, this.Content.Load<Texture2D>("GrassTile"));
+            tileTextures.Add(TileMap.tileType.sand, this.Content.Load<Texture2D>("SandTile"));
+            tileTextures.Add(TileMap.tileType.tree, this.Content.Load<Texture2D>("TreeTile"));
+            tileTextures.Add(TileMap.tileType.water, this.Content.Load<Texture2D>("WaterTile"));
 
-            tile_Grass = this.Content.Load<Texture2D>("GrassTile");
-            tile_Sand = this.Content.Load<Texture2D>("SandTile");
-            tile_Tree = this.Content.Load<Texture2D>("TreeTile");
-            tile_Water = this.Content.Load<Texture2D>("WaterTile");
-
-            //Build level data
+            //Create Player
             m_player = new Player(spr_Player);
 
-            List<Tile> map = new List<Tile>();
-
+            //Create level
             int[,] array = new int[,] { 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
                 { 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
@@ -94,30 +85,12 @@ namespace GladiatorArena
                 { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 }
             };
 
-            for (int i = 0; i < array.GetLength(1); i++)
-                for (int j = 0; j < array.GetLength(0); j++)
-                {
-                    Tile test = new Tile();
-                    if (array[j, i] == 0)
-                        test = new Tile(new Entity(tile_Grass, new Vector2(i * tileDims.X, j * tileDims.Y)), 0);
-                    else if (array[j, i] == 1)
-                        test = new Tile(new Entity(tile_Sand, new Vector2(i * tileDims.X, j * tileDims.Y)), 1);
-                    else if (array[j, i] == 2)
-                        test = new Tile(new Entity(tile_Tree, new Vector2(i * tileDims.X, j * tileDims.Y)), 2);
-                    else if (array[j, i] == 3)
-                        test = new Tile(new Entity(tile_Water, new Vector2(i * tileDims.X, j * tileDims.Y)), 3);
-                    map.Add(test);
+            m_tilesMap = new TileMap(array, new Vector2(11, 17), new Vector2(64, 64), tileTextures);
 
-                    int po = (j * Convert.ToInt32(gameArea.X)) + i;
-                    Console.WriteLine(i + " : " + j + " = " + po);
-                }
-
-
-            //Do adjacency
-            ///..................
-
-            tilesMappo = new TileMap(map, new Vector2(11,17));
-           
+            //Update ScreenSize
+            graphics.PreferredBackBufferWidth = Convert.ToInt32(m_tilesMap.m_tileDims.X * m_tilesMap.m_mapSize.Y);
+            graphics.PreferredBackBufferHeight = Convert.ToInt32(m_tilesMap.m_tileDims.Y * m_tilesMap.m_mapSize.X);
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -142,11 +115,9 @@ namespace GladiatorArena
             if (elapsedTime > interval)
             {
                 elapsedTime -= interval;
-                // TODO: Add your update logic here
 
-                m_player.Update(tilesMappo);
+                m_player.Update(m_tilesMap);
 
-         
                 elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
             elapsedTime++;
@@ -161,9 +132,8 @@ namespace GladiatorArena
         {
             GraphicsDevice.Clear(Color.Black);
 
-
             tileBatch.Begin();
-            tilesMappo.RenderTileMap(tileBatch);
+            m_tilesMap.RenderTileMap(tileBatch);
             tileBatch.End();
 
             // TODO: Add your drawing code here

@@ -41,10 +41,10 @@ namespace GladiatorArena
 
         public void Update(TileMap tiles)
         {
-            //Update sprite position
-
+            //Get 2D position of player
             Vector2 position = tiles.ConvertTo2D(m_pos);
 
+            //Get Keyboard state
             KeyboardState state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Left))
@@ -56,7 +56,7 @@ namespace GladiatorArena
             if (state.IsKeyDown(Keys.Down))
                 position = Move(DIR.Down, position);
 
-
+            //Check if movement it allowed before moving
             if (tiles.CheckMap(position))
             {
                 m_pos = tiles.ConvertTo1D(Convert.ToInt32(position.X), Convert.ToInt32(position.Y));
@@ -73,30 +73,20 @@ namespace GladiatorArena
             spr_player.Draw(spriteBatch);
         }
 
-
-
         private Vector2 Move(DIR direction, Vector2 position)
         {
             if (direction == DIR.Down)
-            {
                 if (position.Y < 10)
                     position.Y += 1;
-            }
             if (direction == DIR.Up)
-            {
                 if (position.Y > 0)
                     position.Y -= 1;
-            }
             if (direction == DIR.Left)
-            {
                 if (position.X > 0)
                     position.X -= 1;
-            }
             if (direction == DIR.Right)
-            {
                 if (position.X < 16)
                     position.X += 1;
-            }
             return position;
         }
     }

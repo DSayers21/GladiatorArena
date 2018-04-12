@@ -13,31 +13,43 @@ namespace GladiatorArena
 {
     public class TileMap
     {
-        enum m_tileType { grass, sand, dirt, tree, wall }
+        //Enum
+        public enum tileType { grass = 0, sand = 1, tree = 2, water = 3, dirt = 4 }
 
         //member variables
-        private Vector2 m_mapSize;
-        private List<Tile> m_tileList;
+        public Vector2 m_mapSize;
+        public Vector2 m_tileDims;
+        private List<Tile> m_tileList = new List<Tile>();
 
         //default constructor
         public TileMap()
         {
             m_mapSize = new Vector2(11, 17);
+            m_tileDims = new Vector2(64, 64);
         }
 
-        //Overloaded constructor
-        public TileMap(List<Tile> tiles, Vector2 mapSize)
+        //Overloaded Constructor
+        public TileMap(int[,] levelData, Vector2 mapSize, Vector2 tileDims, Dictionary<tileType, Texture2D> tileTextures)
         {
-            m_mapSize = new Vector2(mapSize.X, mapSize.Y);
-            m_tileList = tiles;
+            m_mapSize = mapSize;
+            m_tileDims = tileDims;
+            for (int i = 0; i < levelData.GetLength(1); i++)
+            {
+                for (int j = 0; j < levelData.GetLength(0); j++)
+                {
+                    Tile test = new Tile();
+                    Console.WriteLine((tileType)levelData[j, i]);
+                    test = new Tile(new Entity(tileTextures[(tileType)levelData[j, i]], new Vector2(i * tileDims.X, j * tileDims.Y)), levelData[j, i]);
+                    
+                    m_tileList.Add(test);
+                }
+            }
         }
 
         public void RenderTileMap(SpriteBatch spriteBatch)
         {
             for (int index = 0; index < m_tileList.Count; index++)
-            {
                 m_tileList[index].RenderTile(spriteBatch);
-            }
         }
 
         public int ConvertTo1D(int x, int y)
@@ -55,9 +67,8 @@ namespace GladiatorArena
         public bool CheckMap(Vector2 pos)
         {
             int position = ConvertTo1D(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y));
-            if (m_tileList[position].m_tileID == 2)
+            if ((tileType)m_tileList[position].m_tileID == tileType.tree)
                 return false;
-
             return true;
         }
     }

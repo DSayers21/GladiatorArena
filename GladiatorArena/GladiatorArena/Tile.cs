@@ -41,6 +41,7 @@ namespace GladiatorArena
 
         public Tile()
         {
+            //Empty
         }
 
         public void RenderTile(SpriteBatch spriteBatch)
