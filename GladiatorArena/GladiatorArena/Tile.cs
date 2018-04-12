@@ -14,7 +14,7 @@ namespace GladiatorArena
     public class Tile
     {
         //Members
-        private int m_tileID;
+        public int m_tileID;
         private int m_type;
         private Entity m_texEntity;
 
@@ -22,9 +22,9 @@ namespace GladiatorArena
         private int[] m_occupants;
 
         //default constructor
-        public Tile(Entity texEntity)
+        public Tile(Entity texEntity, int ID)
         {
-            m_tileID = -1;
+            m_tileID = ID;
             m_type = -1;
             //-1 is means no entity present, else it stores the id of the entity present
             m_occupants = new int[] { -1, -1, -1 };

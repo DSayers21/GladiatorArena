@@ -22,7 +22,7 @@ namespace GladiatorArena
         //default constructor
         public TileMap()
         {
-            m_mapSize = new Vector2(11, 11);
+            m_mapSize = new Vector2(17, 11);
         }
 
         //Overloaded constructor
@@ -38,6 +38,29 @@ namespace GladiatorArena
             {
                 m_tileList[index].RenderTile(spriteBatch);
             }
+        }
+
+        public int ConvertTo1D(int x, int y)
+        {
+            int pos = x * Convert.ToInt32(m_mapSize.X )+ y;
+
+            return pos;
+        }
+
+        public Vector2 ConvertTo2D(int pos)
+        {
+            int y = pos % Convert.ToInt32(m_mapSize.X);
+            int x = pos / Convert.ToInt32(m_mapSize.X);
+            return new Vector2(x, y);
+        }
+
+        public bool CheckMap(Vector2 pos)
+        {
+            int position = ConvertTo1D(Convert.ToInt32(pos.Y), Convert.ToInt32(pos.X));
+            if (m_tileList[position].m_tileID == 2)
+                return false;
+
+            return true;
         }
     }
 }

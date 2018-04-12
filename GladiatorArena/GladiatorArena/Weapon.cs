@@ -15,6 +15,9 @@ namespace GladiatorArena
         public int m_durability { get; private set; }
         public int m_range { get; private set; }
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Weapon()
         {
             m_id = -1;

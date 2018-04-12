@@ -17,14 +17,20 @@ namespace GladiatorArena
         SpriteBatch spriteBatch;
         SpriteBatch tileBatch;
         Texture2D spr_Duck;
+        Texture2D spr_Player;
         Texture2D tile_Grass;
         Texture2D tile_Sand;
         Texture2D tile_Tree;
+        Texture2D tile_Water;
         Vector2 scr_dimensions;
         TileMap tilesMappo;
         List<Entity> eList = new List<Entity>();
 
-        int AmountofDucks = 1;
+        Vector2 gameArea = new Vector2(17, 11);
+        Vector2 tileDims = new Vector2(64, 64);
+
+        Player m_player;
+        int AmountofDucks = 0;
 
         public Game1()
         {
@@ -41,8 +47,11 @@ namespace GladiatorArena
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            graphics.PreferredBackBufferHeight = Convert.ToInt32(tileDims.Y * gameArea.Y);
+            graphics.PreferredBackBufferWidth = Convert.ToInt32(tileDims.X * gameArea.X);
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -56,43 +65,47 @@ namespace GladiatorArena
             tileBatch = new SpriteBatch(GraphicsDevice);
             //load your game content here
             spr_Duck = this.Content.Load<Texture2D>("DuckSprite");
+            spr_Player = this.Content.Load<Texture2D>("AngryRussellSprite");
+
 
             tile_Grass = this.Content.Load<Texture2D>("GrassTile");
             tile_Sand = this.Content.Load<Texture2D>("SandTile");
             tile_Tree = this.Content.Load<Texture2D>("TreeTile");
+            tile_Water = this.Content.Load<Texture2D>("WaterTile");
             //eList.Add(new Entity(spr_Duck, new Vector2(0, 0), new Vector2(100, 100), 0.5f));
 
             //Build level data
-
+            m_player = new Player(spr_Player);
 
             List<Tile> map = new List<Tile>();
 
-            int[,] array = new int[11, 11] { 
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0 },
-                { 0, 2, 0, 1, 1, 2, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+            int[,] array = new int[11, 17] { 
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 }, 
+                { 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 2, 0, 1, 1, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,2 ,0 ,0 },
+                { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1 ,0 ,0 ,3 ,3 ,0 },
+                { 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,3 ,0 ,0 },
+                { 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 }
             };
-            Vector2 gameArea = new Vector2(11, 11);
-            Vector2 tileDims = new Vector2(64, 64);
+            
             for (int i = 0; i < gameArea.Y; i++)
             {
                 for (int j = 0; j < gameArea.X; j++)
                 {
                     Tile test = new GladiatorArena.Tile();
                     if (array[i, j] == 0)
-                        test = new Tile(new Entity(tile_Grass, new Vector2(j * tileDims.Y, i * tileDims.X)));
+                        test = new Tile(new Entity(tile_Grass, new Vector2(j * tileDims.Y, i * tileDims.X)), 0);
                     else if (array[i, j] == 1)
-                        test = new Tile(new Entity(tile_Sand, new Vector2(j * tileDims.Y, i * tileDims.X)));
+                        test = new Tile(new Entity(tile_Sand, new Vector2(j * tileDims.Y, i * tileDims.X)), 1);
                     else if (array[i, j] == 2)
-                        test = new Tile(new Entity(tile_Tree, new Vector2(j * tileDims.Y, i * tileDims.X)));
+                        test = new Tile(new Entity(tile_Tree, new Vector2(j * tileDims.Y, i * tileDims.X)), 2);
+                    else if (array[i, j] == 3)
+                        test = new Tile(new Entity(tile_Water, new Vector2(j * tileDims.Y, i * tileDims.X)), 3);
                     map.Add(test);
                 }
             }
@@ -103,8 +116,11 @@ namespace GladiatorArena
                 ////
             //
 
-            tilesMappo = new TileMap(map, new Vector2(11,11));
+            tilesMappo = new TileMap(map, new Vector2(17,11));
 
+            Console.WriteLine(tilesMappo.ConvertTo2D(17).X + ":" + tilesMappo.ConvertTo2D(17).Y);
+            Console.WriteLine(tilesMappo.ConvertTo2D(5).X + ":" + tilesMappo.ConvertTo2D(5).Y);
+            Console.WriteLine(tilesMappo.ConvertTo2D(101).X + ":" + tilesMappo.ConvertTo2D(101).Y);
             //{ 0,0,0,0,0,0,0,0,0,0,0 }
             //{ 0,0,0,0,0,0,0,0,0,0,0 }
             //{ 0,0,0,0,0,0,0,0,0,0,0 }
@@ -149,6 +165,8 @@ namespace GladiatorArena
 
             // TODO: Add your update logic here
 
+            m_player.Update(tilesMappo);
+
             for (int i = 0; i < eList.Count; i++)
                 eList[i].Update(gameTime, eList, graphics.GraphicsDevice);
 
@@ -170,6 +188,8 @@ namespace GladiatorArena
 
             // TODO: Add your drawing code here
             spriteBatch.Begin(); //Start batch
+
+            m_player.Draw(spriteBatch);
 
             for (int i = 0; i < eList.Count; i++)
                 eList[i].Draw(spriteBatch);

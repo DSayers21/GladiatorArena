@@ -14,6 +14,9 @@ namespace GladiatorArena
         public int m_duration { get; private set; }
         public int m_cooldown { get; private set; }
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public SpecialMove()
         {
             m_id = -1;
