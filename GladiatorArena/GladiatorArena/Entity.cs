@@ -125,6 +125,6 @@ namespace GladiatorArena
         private float m_width;
         private float m_height;
         private Vector2 m_scale;
-        private int Count = 0;
+        //private int Count = 0;
     }
 }

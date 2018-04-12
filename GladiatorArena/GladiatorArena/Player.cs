@@ -36,7 +36,7 @@ namespace GladiatorArena
             foreach (int weapon in m_weaponId) { m_weaponId[weapon] = 0; }
             m_specialMoveId = -1;
             m_pos = 18;
-            spr_player = new Entity(playerSprite, new Vector2(5*64, 8*64));
+            spr_player = new Entity(playerSprite, new Vector2(5 * 64, 8 * 64));
         }
 
         public void Update(TileMap tiles)
@@ -44,8 +44,6 @@ namespace GladiatorArena
             //Update sprite position
 
             Vector2 position = tiles.ConvertTo2D(m_pos);
-
-
 
             KeyboardState state = Keyboard.GetState();
 
@@ -61,12 +59,13 @@ namespace GladiatorArena
 
             if (tiles.CheckMap(position))
             {
-
                 m_pos = tiles.ConvertTo1D(Convert.ToInt32(position.X), Convert.ToInt32(position.Y));
                 spr_player.SetPosition(tiles.ConvertTo2D(m_pos) * 64);
             }
             else
                 Console.WriteLine(tiles.CheckMap(position));
+
+            Console.WriteLine("Player is on tileNo : "+m_pos);
         }
 
         public void Draw(SpriteBatch spriteBatch)
