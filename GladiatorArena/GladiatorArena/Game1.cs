@@ -67,9 +67,6 @@ namespace GladiatorArena
             tileTextures.Add(TileMap.tileType.tree, this.Content.Load<Texture2D>("TreeTile"));
             tileTextures.Add(TileMap.tileType.water, this.Content.Load<Texture2D>("WaterTile"));
 
-            //Create Player
-            m_player = new Player(spr_Player);
-
             //Create level
             int[,] array = new int[,] { 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
@@ -86,6 +83,9 @@ namespace GladiatorArena
             };
 
             m_tilesMap = new TileMap(array, new Vector2(11, 17), new Vector2(64, 64), tileTextures);
+
+            //Create Player
+            m_player = new Player(spr_Player, m_tilesMap, new Vector2(1, 1), 10, 4);
 
             //Update ScreenSize
             graphics.PreferredBackBufferWidth = Convert.ToInt32(m_tilesMap.m_tileDims.X * m_tilesMap.m_mapSize.Y);
@@ -112,11 +112,15 @@ namespace GladiatorArena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            m_player.Input(m_tilesMap);
+            m_player.Update(m_tilesMap, gameTime);
+
+
             if (elapsedTime > interval)
             {
                 elapsedTime -= interval;
 
-                m_player.Update(m_tilesMap);
+               
 
                 elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
