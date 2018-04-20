@@ -29,11 +29,13 @@ namespace GladiatorArena
 
 
         Player m_player;
+        MusicMan m_musicMan;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            m_musicMan = new MusicMan();
         }
 
         /// <summary>

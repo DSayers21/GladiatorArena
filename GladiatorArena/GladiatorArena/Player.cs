@@ -32,6 +32,7 @@ namespace GladiatorArena
 
 
         public Entity spr_player;
+        private MusicMan m_musicMan;
 
         /// <summary>
         /// Default constructor
@@ -63,6 +64,8 @@ namespace GladiatorArena
 
             //Setup player sprite
             spr_player = new Entity(playerSprite, new Vector2(startPosition.X * 64, startPosition.Y * 64));
+
+            m_musicMan = new MusicMan();
         }
 
         public void Input(TileMap tiles)
@@ -160,7 +163,6 @@ namespace GladiatorArena
                 Console.WriteLine(newPos);
                 spr_player.SetPosition(newPos);
             }
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -170,6 +172,9 @@ namespace GladiatorArena
 
         private Vector2 Move(DIR direction, Vector2 position)
         {
+            //testing sounds
+            m_musicMan.playMoveSound("grass01");
+
             if (direction == DIR.Down)
                 if (position.Y < 10)
                     position.Y += 1;

@@ -85,3 +85,51 @@
 /processorParam:TextureFormat=Color
 /build:PlayerSprite.png
 
+#begin sounds/StepDirt01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/StepDirt01.ogg
+
+#begin sounds/StepGrass01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/StepGrass01.ogg
+
+#begin sounds/StepSand01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/StepSand01.ogg
+
+#begin sounds/StepStone01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/StepStone01.ogg
+
+#begin sounds/HitAxe01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/HitAxe01.ogg
+
+#begin sounds/HitClub01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/HitClub01.ogg
+
+#begin sounds/HitDagger01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/HitDagger01.ogg
+
+#begin sounds/HitSword01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/HitSword01.ogg
+
