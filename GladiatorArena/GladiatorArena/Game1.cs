@@ -18,6 +18,7 @@ namespace GladiatorArena
         SpriteBatch tileBatch;
 
         Texture2D spr_Player;
+        Texture2D spr_Enemy;
 
         Dictionary<TileMap.tileType, Texture2D> tileTextures = new Dictionary<TileMap.tileType, Texture2D>();
 
@@ -29,6 +30,9 @@ namespace GladiatorArena
 
 
         Player m_player;
+        Enemy m_Enemy;
+
+
         MusicMan m_musicMan;
 
         public Game1()
@@ -62,6 +66,7 @@ namespace GladiatorArena
 
             //Load Sprites
             spr_Player = this.Content.Load<Texture2D>("PlayerSprite");
+            spr_Enemy = this.Content.Load<Texture2D>("EnemySprite");
 
             //Load Tile Textures
             tileTextures.Add(TileMap.tileType.grass, this.Content.Load<Texture2D>("GrassTile"));
@@ -88,6 +93,7 @@ namespace GladiatorArena
 
             //Create Player
             m_player = new Player(spr_Player, m_tilesMap, new Vector2(1, 1), 10, 4);
+            m_Enemy = new Enemy(spr_Enemy, m_tilesMap, new Vector2(1, 10), 34, 3);
 
             //Update ScreenSize
             graphics.PreferredBackBufferWidth = Convert.ToInt32(m_tilesMap.m_tileDims.X * m_tilesMap.m_mapSize.Y);
@@ -116,17 +122,12 @@ namespace GladiatorArena
 
             m_player.Input(m_tilesMap);
             m_player.Update(m_tilesMap, gameTime);
+            
+            m_Enemy.Input(m_tilesMap, m_tilesMap.ConvertTo2D(m_player.m_pos));
+            m_Enemy.Update(m_tilesMap, gameTime, m_player);
 
-
-            if (elapsedTime > interval)
-            {
-                elapsedTime -= interval;
-
-               
-
-                elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-            }
             elapsedTime++;
+
             base.Update(gameTime);
         }
 
@@ -145,6 +146,7 @@ namespace GladiatorArena
             // TODO: Add your drawing code here
             spriteBatch.Begin(); 
             m_player.Draw(spriteBatch);
+            m_Enemy.Draw(spriteBatch);
             spriteBatch.End(); 
 
             base.Draw(gameTime);

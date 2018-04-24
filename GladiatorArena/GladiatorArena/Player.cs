@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GladiatorArena
 {
-    class Player
+    public class Player
     {
         public enum DIR{ Up = 0, UpRight = 1, Right = 2, DownRight = 3, Down = 4, DownLeft= 5, Left=6, TopLeft = 7}
         public int m_id { get; private set; }
@@ -81,7 +81,7 @@ namespace GladiatorArena
                         m_isRunning = true;
                     else
                         m_isRunning = false;
-                    Console.WriteLine("Running = ", m_isRunning);
+                    //Console.WriteLine("Running = ", m_isRunning);
                 }
 
 
@@ -120,11 +120,11 @@ namespace GladiatorArena
                         m_moving = true;
                         m_posNew = tiles.ConvertTo1D(Convert.ToInt32(position.X), Convert.ToInt32(position.Y));
                     }
-                    else
-                        Console.WriteLine(tiles.CheckMap(position));
+                    //else
+                        //Console.WriteLine(tiles.CheckMap(position));
                 }
 
-                Console.WriteLine("Player is on tileNo : " + m_pos);
+                //Console.WriteLine("Player is on tileNo : " + m_pos);
             }
         }
 
@@ -160,7 +160,7 @@ namespace GladiatorArena
                 newPos.X = (targetPosition.X - position.X) * t + position.X;
                 newPos.Y = (targetPosition.Y - position.Y) * t + position.Y;
 
-                Console.WriteLine(newPos);
+                //Console.WriteLine(newPos);
                 spr_player.SetPosition(newPos);
             }
         }
@@ -173,7 +173,7 @@ namespace GladiatorArena
         private Vector2 Move(DIR direction, Vector2 position)
         {
             //testing sounds
-            m_musicMan.playMoveSound("grass01");
+            m_musicMan.playMoveSound("sand01");
 
             if (direction == DIR.Down)
                 if (position.Y < 10)
@@ -188,6 +188,12 @@ namespace GladiatorArena
                 if (position.X < 16)
                     position.X += 1;
             return position;
+        }
+
+        public void Attack(float damage)
+        {
+            m_lifePoints -= damage;
+            Console.WriteLine(m_lifePoints);
         }
     }
 }

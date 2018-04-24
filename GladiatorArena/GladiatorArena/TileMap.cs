@@ -38,7 +38,7 @@ namespace GladiatorArena
                 for (int j = 0; j < levelData.GetLength(0); j++)
                 {
                     Tile test = new Tile();
-                    Console.WriteLine((tileType)levelData[j, i]);
+                    //Console.WriteLine((tileType)levelData[j, i]);
                     test = new Tile(new Entity(tileTextures[(tileType)levelData[j, i]], new Vector2(i * tileDims.X, j * tileDims.Y)), levelData[j, i]);
                     
                     m_tileList.Add(test);
