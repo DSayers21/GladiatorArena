@@ -15,7 +15,7 @@ namespace GladiatorArena
     {
         //Members
         public int m_tileID;
-        private int m_type;
+        public int m_type;
         private Entity m_texEntity;
 
         //0 = above tile, 1 = on tile, 2 = below tile

@@ -71,5 +71,10 @@ namespace GladiatorArena
                 return false;
             return true;
         }
+
+        public int CheckTileAt(int pos)
+        {
+            return m_tileList[pos].m_tileID;
+        }
     }
 }

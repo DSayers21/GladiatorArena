@@ -119,6 +119,32 @@ namespace GladiatorArena
                         m_timeSoFar = 0.0f;
                         m_moving = true;
                         m_posNew = tiles.ConvertTo1D(Convert.ToInt32(position.X), Convert.ToInt32(position.Y));
+                        //Sound
+                        int tileType = tiles.CheckTileAt(m_pos);
+                        switch (tileType)
+                        {
+                            case 0: //Grass
+                                m_musicMan.playMoveSound("grass01");
+                                Console.WriteLine("Playing Sound: grass01");
+                            break;
+                            case 1: //Sand
+                                m_musicMan.playMoveSound("sand01");
+                                Console.WriteLine("Playing Sound: sand01");
+                            break;
+                            case 2: //Tree
+                                //m_musicMan.playMoveSound("");
+                            break;
+                            case 3: //Water
+                                //m_musicMan.playMoveSound("");
+                            break;
+                            case 4: //Grass
+                                //m_musicMan.playMoveSound("");
+                            break;
+                        }
+
+                        //testing sounds
+                        
+
                     }
                     //else
                         //Console.WriteLine(tiles.CheckMap(position));
@@ -172,8 +198,7 @@ namespace GladiatorArena
 
         private Vector2 Move(DIR direction, Vector2 position)
         {
-            //testing sounds
-            m_musicMan.playMoveSound("sand01");
+            
 
             if (direction == DIR.Down)
                 if (position.Y < 10)
