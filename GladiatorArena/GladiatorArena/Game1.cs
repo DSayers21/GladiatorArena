@@ -18,6 +18,8 @@ namespace GladiatorArena
         SpriteBatch tileBatch;
 
         Texture2D spr_Player;
+        Texture2D spr_PlayerSwim;
+
         Texture2D spr_Enemy;
 
         Dictionary<TileMap.tileType, Texture2D> tileTextures = new Dictionary<TileMap.tileType, Texture2D>();
@@ -66,6 +68,7 @@ namespace GladiatorArena
 
             //Load Sprites
             spr_Player = this.Content.Load<Texture2D>("PlayerSprite");
+            spr_PlayerSwim = this.Content.Load<Texture2D>("PlayerSwimSprite");
             spr_Enemy = this.Content.Load<Texture2D>("EnemySprite");
 
             //Load Tile Textures
@@ -83,9 +86,9 @@ namespace GladiatorArena
                 { 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
                 { 5, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,2 ,0 ,5 },
                 { 5, 0, 0, 5, 0, 1, 0, 0, 1, 0, 0, 1 ,0 ,0 ,3 ,3 ,5 },
-                { 5, 0, 5, 5, 3, 0, 5, 0, 0, 0, 0, 2 ,0 ,0 ,3 ,0 ,5 },
-                { 5, 0, 0, 3, 0, 0, 5, 5, 5, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
-                { 5, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 0, 5, 5, 3, 0, 5, 0, 0, 0, 0, 2 ,0 ,3 ,3 ,3 ,5 },
+                { 5, 0, 0, 3, 0, 0, 5, 5, 5, 0, 0, 2 ,0 ,3 ,3 ,3 ,5 },
+                { 5, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0, 2 ,0 ,0 ,3 ,3 ,5 },
                 { 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
                 { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ,5 ,5 ,5 ,5 ,5 }
             };
@@ -93,7 +96,7 @@ namespace GladiatorArena
             m_tilesMap = new TileMap(array, new Vector2(11, 17), new Vector2(64, 64), tileTextures);
 
             //Create Player
-            m_player = new Player(spr_Player, m_tilesMap, new Vector2(1, 1), 20, 4);
+            m_player = new Player(spr_Player, spr_PlayerSwim, m_tilesMap, new Vector2(1, 1), 20, 4);
             m_Enemy = new Enemy(spr_Enemy, m_tilesMap, new Vector2(1, 9), 40, 1.5f);
 
             //Update ScreenSize

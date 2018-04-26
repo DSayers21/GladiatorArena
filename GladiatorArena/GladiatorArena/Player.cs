@@ -29,15 +29,17 @@ namespace GladiatorArena
         private bool m_moving = false;
         private float m_timeSoFar = 0.0f;
 
-
+        private bool m_isSwimming = false;
 
         public Entity spr_player;
+        public Entity spr_playerSwim;
+
         private MusicMan m_musicMan;
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Player(Texture2D playerSprite, TileMap tiles, Vector2 startPosition, float speed, float runningSpeed)
+        public Player(Texture2D playerSprite, Texture2D playerSwimSprite, TileMap tiles, Vector2 startPosition, float speed, float runningSpeed)
         {
             //General player stats
             m_id = -1;
@@ -64,6 +66,7 @@ namespace GladiatorArena
 
             //Setup player sprite
             spr_player = new Entity(playerSprite, new Vector2(startPosition.X * 64, startPosition.Y * 64));
+            spr_playerSwim = new Entity(playerSwimSprite, new Vector2(startPosition.X * 64, startPosition.Y * 64));
 
             m_musicMan = new MusicMan();
         }
@@ -157,6 +160,11 @@ namespace GladiatorArena
         public void Update(TileMap tiles, GameTime gameTime)
         {
 
+            if (tiles.CheckTileAt(m_posNew) == 3) //Check Swimming
+                m_isSwimming = true;
+            else
+                m_isSwimming = false;
+
             float spd = 0.0f;
             if (m_isRunning == false)
                 spd = m_speed;
@@ -168,6 +176,7 @@ namespace GladiatorArena
                 Vector2 targetPosition = tiles.ConvertTo2D(m_posNew);
                 m_pos = tiles.ConvertTo1D(Convert.ToInt32(targetPosition.X), Convert.ToInt32(targetPosition.Y));
                 spr_player.SetPosition(tiles.ConvertTo2D(m_pos) * 64);
+                spr_playerSwim.SetPosition(tiles.ConvertTo2D(m_pos) * 64);
                 m_timeSoFar = 0;
                 m_moving = false;
             }
@@ -188,12 +197,16 @@ namespace GladiatorArena
 
                 //Console.WriteLine(newPos);
                 spr_player.SetPosition(newPos);
+                spr_playerSwim.SetPosition(newPos);
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spr_player.Draw(spriteBatch);
+            if(m_isSwimming)
+                spr_playerSwim.Draw(spriteBatch);
+            else
+                spr_player.Draw(spriteBatch);
         }
 
         private Vector2 Move(DIR direction, Vector2 position)
