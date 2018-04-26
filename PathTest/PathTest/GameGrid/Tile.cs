@@ -18,7 +18,7 @@ namespace PathTest
 
         public Tile(int i, int j, Vector2 size, GraphicsDevice gDevice)
         {
-            if(Util.GetRandom(0, 100) < 1)
+            if(Util.GetRandom(0, 100) < 10)
                 m_solid = true;
 
             m_size = size;

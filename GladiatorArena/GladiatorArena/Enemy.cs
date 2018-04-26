@@ -28,10 +28,10 @@ namespace GladiatorArena
 
         public Entity spr_enemy;
 
-        public int m_rangeAwayFromPlr;
+        public float m_rangeAwayFromPlr;
         public bool m_atRange = false;
 
-        public Enemy(Texture2D enemySprite, TileMap tiles, Vector2 startPosition, float speed, int rangeAwayFromPlayer)
+        public Enemy(Texture2D enemySprite, TileMap tiles, Vector2 startPosition, float speed, float rangeAwayFromPlayer)
         {
             //General player stats
             m_id = -1;

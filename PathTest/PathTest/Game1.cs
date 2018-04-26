@@ -51,7 +51,7 @@ namespace PathTest
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            pathFinder = new DFS(gGrid);
+            pathFinder = new Dijkstra(gGrid);
         }
 
         /// <summary>

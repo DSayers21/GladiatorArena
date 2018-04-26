@@ -73,27 +73,28 @@ namespace GladiatorArena
             tileTextures.Add(TileMap.tileType.sand, this.Content.Load<Texture2D>("SandTile"));
             tileTextures.Add(TileMap.tileType.tree, this.Content.Load<Texture2D>("TreeTile"));
             tileTextures.Add(TileMap.tileType.water, this.Content.Load<Texture2D>("WaterTile"));
+            tileTextures.Add(TileMap.tileType.wall, this.Content.Load<Texture2D>("BrickWall"));
 
             //Create level
             int[,] array = new int[,] { 
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 2, 0, 1, 1, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,2 ,0 ,0 },
-                { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1 ,0 ,0 ,3 ,3 ,0 },
-                { 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,3 ,0 ,0 },
-                { 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2 ,0 ,0 ,0 ,0 ,0 }
+                { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ,5 ,5 ,5 ,5 ,5 },
+                { 5, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 2, 0, 1, 1, 2, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,2 ,0 ,5 },
+                { 5, 0, 0, 5, 0, 1, 0, 0, 1, 0, 0, 1 ,0 ,0 ,3 ,3 ,5 },
+                { 5, 0, 5, 5, 3, 0, 5, 0, 0, 0, 0, 2 ,0 ,0 ,3 ,0 ,5 },
+                { 5, 0, 0, 3, 0, 0, 5, 5, 5, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ,0 ,0 ,0 ,0 ,5 },
+                { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ,5 ,5 ,5 ,5 ,5 }
             };
 
             m_tilesMap = new TileMap(array, new Vector2(11, 17), new Vector2(64, 64), tileTextures);
 
             //Create Player
-            m_player = new Player(spr_Player, m_tilesMap, new Vector2(1, 1), 10, 4);
-            m_Enemy = new Enemy(spr_Enemy, m_tilesMap, new Vector2(1, 10), 34, 3);
+            m_player = new Player(spr_Player, m_tilesMap, new Vector2(1, 1), 20, 4);
+            m_Enemy = new Enemy(spr_Enemy, m_tilesMap, new Vector2(1, 9), 40, 1.5f);
 
             //Update ScreenSize
             graphics.PreferredBackBufferWidth = Convert.ToInt32(m_tilesMap.m_tileDims.X * m_tilesMap.m_mapSize.Y);

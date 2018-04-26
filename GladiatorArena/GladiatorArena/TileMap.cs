@@ -14,7 +14,7 @@ namespace GladiatorArena
     public class TileMap
     {
         //Enum
-        public enum tileType { grass = 0, sand = 1, tree = 2, water = 3, dirt = 4 }
+        public enum tileType { grass = 0, sand = 1, tree = 2, water = 3, dirt = 4, wall = 5 }
 
         //member variables
         public Vector2 m_mapSize;
@@ -67,8 +67,8 @@ namespace GladiatorArena
         public bool CheckMap(Vector2 pos)
         {
             int position = ConvertTo1D(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y));
-            if ((tileType)m_tileList[position].m_tileID == tileType.tree)
-                return false;
+            if (((tileType)m_tileList[position].m_tileID == tileType.tree) || ((tileType)m_tileList[position].m_tileID == tileType.wall))
+                    return false;
             return true;
         }
 
